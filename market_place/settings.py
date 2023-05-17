@@ -82,7 +82,7 @@ ROOT_URLCONF = 'market_place.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -161,4 +161,10 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+# EmaiL in Console
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" 
+
 AUTH_USER_MODEL = "custom_user.CustomUser"
+
+LOGIN_REDIRECT_URL = "home"
+ACCOUNT_LOGOUT_REDIRECT = "home"
