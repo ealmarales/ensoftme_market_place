@@ -64,11 +64,13 @@ INSTALLED_APPS = [
     'core.coin.apps.CoinConfig',
     'core.address.apps.AddressConfig',
     'apps.custom_user.apps.UserProfileConfig',
+
+    'apps.market.apps.MarketConfig',
     
 
 ]
 
-SITE_ID = 2
+SITE_ID = env.int('SITE_ID')
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -165,7 +167,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
