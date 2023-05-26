@@ -3,4 +3,4 @@ from django. views. generic import TemplateView
 
 # Create your views here.
 class HomePageView(TemplateView):
-    template_name = "market/index.html"
+    template_name = "market/home_page_index.html"

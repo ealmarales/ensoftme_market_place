@@ -1,0 +1,39 @@
+{% extends 'market/base.html' %}
+
+{% load static %}
+
+{% block body %}
+<body class="home-page home-01 ">
+
+	<!-- mobile menu -->
+    {% include 'market/mobile_menu.html' %}
+
+	<!--header-->
+    {% include 'market/header.html' %}
+
+
+    <main id="main" class="main-site left-sidebar">
+
+        <div class="container">
+            {% block content %} {% endblock content %}
+
+
+        </div>
+        <!--end container-->
+
+    </main>
+    <!--main area-->
+
+    {% include 'market/footer.html' %}
+
+	<script src="{% static 'assets/js/jquery-1.12.4.minb8ff.js' %}"></script>
+	<script src="{% static 'assets/js/jquery-ui-1.12.4.minb8ff.js' %}"></script>
+	<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'assets/js/jquery.flexslider.js' %}"></script>
+	<script src="{% static 'assets/js/chosen.jquery.min.js' %}"></script>
+	<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'assets/js/jquery.countdown.min.js' %}"></script>
+	<script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+	<script src="{% static 'assets/js/functions.js' %}"></script>
+</body>
+{% endblock body %}
