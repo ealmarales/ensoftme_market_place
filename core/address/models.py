@@ -31,6 +31,7 @@ class Municipality(models.Model):
 
 
 class Address(models.Model):
+    name_address = models.CharField(default= "", max_length=200, blank=False,)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)
@@ -41,10 +42,4 @@ class Address(models.Model):
     number = models.CharField(_('number'), max_length=20, blank=True, null=True)
 
     def __str__(self):
-        str_address = ""
-
-        str_address.__add__(self.municipality.name)
-        str_address.__add__(" / ", self.province.name)
-        str_address.__add__(" / ", self.country.name)
-
-        return str_address
+        return self.name_address
