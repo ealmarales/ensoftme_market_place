@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',  
     'allauth.socialaccount.providers.facebook', 
     'allauth.socialaccount.providers.google',
+    'django_google_maps',
 
 
     # Local Apps
@@ -197,3 +198,7 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET= True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
+
+
+
+GOOGLE_MAPS_API_KEY  = 'AIzaSyA6aPPrd3qzYfHkz0kARMRrOpTch01D22I'

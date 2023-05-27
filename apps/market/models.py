@@ -26,9 +26,9 @@ class CoinExchangeOffer(models.Model):
     coin_provider = models.ForeignKey(CoinProvider, on_delete=models.CASCADE)
     coin_exchange = models.ForeignKey(Coin, on_delete=models.CASCADE, related_name='coin_exchange')
     exchange_tax = models.DecimalField(_("seller's profit per unit sold"), validators=[MinValueValidator(0)],
-                                       decimal_places=2, max_digits=6)
+                                    decimal_places=2, max_digits=6)
     available_amount = models.DecimalField(_("available amount"), validators=[MinValueValidator(1)], decimal_places=2,
-                                           max_digits=6)
+                                        max_digits=6)
 
     class Meta:
         verbose_name = _('Coin Exchange Offer')
