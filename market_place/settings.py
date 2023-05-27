@@ -190,8 +190,8 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 AUTH_USER_MODEL = "custom_user.CustomUser"
 
-LOGIN_REDIRECT_URL = "home"
-ACCOUNT_LOGOUT_REDIRECT = "home"
+LOGIN_REDIRECT_URL = "market:home"
+ACCOUNT_LOGOUT_REDIRECT = "market:home"
 
 # Additional configuration settings
 SOCIALACCOUNT_QUERY_EMAIL = True
