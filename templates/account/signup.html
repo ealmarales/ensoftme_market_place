@@ -1,9 +1,78 @@
-{% block title %}Sign Up{% endblock title %}
+{% extends "account/base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Sign Up" %}{% endblock %}
+
 {% block content %}
-<h2>Sign Up</h2>
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Sign Up</button>
-</form>
-{% endblock content %}
+
+
+    <div class="wrap-breadcrumb">
+        <ul>
+            <li class="item-link"><a href="{% url 'market:home' %}" class="link">{% trans "Home" %}</a></li>
+            <li class="item-link"><span>{% trans "login" %}</span></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 col-md-offset-3">
+            <div class=" main-content-area">
+                <div class="wrap-login-item ">
+                    <div class="login-form form-item form-stl">
+                        
+                        <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                            {% csrf_token %}
+                            <fieldset class="wrap-title">
+                                <div class="account-form">
+                                    <h1>{% trans "Sign Up" %}</h1> 
+                            </fieldset>
+                            <fieldset class="wrap-input">
+                                <div>
+                                    <label for="{{ form.username.id_for_label }}">Username:</label>
+                                    {{ form.username }}
+                                </div>
+                                <span class="text-error">{{ form.login.errors }}</span>
+                            </fieldset>
+                            <fieldset class="wrap-input">
+                                <div>
+                                    <label for="{{ form.email.id_for_label }}">Email:</label>
+                                    {{ form.email }}
+                                </div>
+                                <span class="text-error">{{ form.login.errors }}</span>
+                            </fieldset>
+                            <fieldset class="wrap-input">
+                                <div>
+                                    <label for="{{ form.password.id_for_label }}">Password:</label>
+                                    <input type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}">
+                                </div>
+                                
+                                <div>
+                                    <label for="{{ form.password_confirm.id_for_label }}">Confirm Password:</label>
+                                    <input type="password" name="{{ form.password_confirm.name }}" id="{{ form.password_confirm.id_for_label }}">
+                                </div>
+                                <span class="text-error">{{ form.password.errors }}</span>
+
+                                {% if form.errors %}
+                                    <ul class="text-danger">
+                                        {% for field in form %}
+                                            {% for error in field.errors %}
+
+                                                <li>{{ error|escape }}</li>
+
+                                            {% endfor %}
+                                        {% endfor %}
+                                        {% for error in form.non_field_errors %}
+
+                                            <li>{{ error|escape }}</li>
+
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}                          
+
+                            </fieldset>                          
+                            <input type="submit" class="btn btn-submit" value="{% trans "Sign Up" %}" name="submit">                           
+                        </form>
+                    </div>
+                </div>
+            </div><!--end main products area-->
+        </div>
+    </div><!--end row-->
+
+{% endblock %}
