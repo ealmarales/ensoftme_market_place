@@ -55,8 +55,7 @@ INSTALLED_APPS = [
     # 3rd Apps
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',  
-    'allauth.socialaccount.providers.facebook', 
+    'allauth.socialaccount',     
     'allauth.socialaccount.providers.google',
     'django_google_maps',
 
