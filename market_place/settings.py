@@ -72,8 +72,14 @@ INSTALLED_APPS = [
 
 SITE_ID = env.int('SITE_ID')
 
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
+        "APP": {
+            "client_id": env("GOOGLE_CLIENT_ID"),
+            "secret": env("GOOGLE_CLIENT_SECRET"),
+            "key": ""
+        },
         'SCOPE': [
             'profile',
             'email',
@@ -81,11 +87,11 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
-        'METHOD': 'oauth2',
-        'CLIENT_ID': GOOGLE_CLIENT_ID,
-        'SECRET': GOOGLE_CLIENT_SECRET,
     }
+
 }
+
+
 
 
 MIDDLEWARE = [
