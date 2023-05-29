@@ -193,8 +193,6 @@ AUTHENTICATION_BACKENDS = [
 # EmaiL in Console
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" 
 
-AUTH_USER_MODEL = "custom_user.CustomUser"
-
 LOGIN_REDIRECT_URL = "market:home"
 ACCOUNT_LOGOUT_REDIRECT = "market:home"
 

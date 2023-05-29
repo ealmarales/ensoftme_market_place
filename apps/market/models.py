@@ -1,11 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
-from apps.custom_user.models import CustomUser
 from core.address.models import Province
 from core.coin.models import Coin
+
+User = get_user_model()
 
 CURRENCY_PROVIDER_STATUS_CHOICE = (
     ('CREATED', _('CREATED')),
@@ -15,7 +17,7 @@ CURRENCY_PROVIDER_STATUS_CHOICE = (
 )
 
 
-class CoinProvider(CustomUser):
+class CoinProvider(User):
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     # tasa de cambio USD - MLC precio disponiblilidad
     status = models.CharField(max_length=20, choices=CURRENCY_PROVIDER_STATUS_CHOICE, default='CREATED')
@@ -26,9 +28,9 @@ class CoinExchangeOffer(models.Model):
     coin_provider = models.ForeignKey(CoinProvider, on_delete=models.CASCADE)
     coin_exchange = models.ForeignKey(Coin, on_delete=models.CASCADE, related_name='coin_exchange')
     exchange_tax = models.DecimalField(_("seller's profit per unit sold"), validators=[MinValueValidator(0)],
-                                    decimal_places=2, max_digits=6)
+                                       decimal_places=2, max_digits=6)
     available_amount = models.DecimalField(_("available amount"), validators=[MinValueValidator(1)], decimal_places=2,
-                                        max_digits=6)
+                                           max_digits=6)
 
     class Meta:
         verbose_name = _('Coin Exchange Offer')
@@ -36,8 +38,8 @@ class CoinExchangeOffer(models.Model):
 
 
 class Operation(models.Model):
-    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sender')
-    recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='recipient')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient')
     tax = models.DecimalField(_("available amount"), validators=[MinValueValidator(0)], decimal_places=2, max_digits=6)
 
 
