@@ -23,7 +23,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("allauth.urls")),
 
+    path("users/", include('apps.custom_user.urls', namespace='users')),
+
     path("", include("apps.market.urls")),
+
     path('address/', include('core.address.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

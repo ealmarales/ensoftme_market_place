@@ -24,7 +24,7 @@
                                                 <a title="Saldo" href="#">Agregar Saldo</a>
                                             </li>
 											<li class="menu-item" >
-                                                <a title="Perfil Usuario" href="#">Mi Cuenta</a>
+                                                <a title="Perfil Usuario" href="{% url "custom_user:profile" %}">Mi Cuenta</a>
                                             </li>
                                             <li class="menu-item" >
                                                 <a title="{% trans 'logout' %}" href="{% url 'account_logout' %}">{% trans 'logout' %}</a>
