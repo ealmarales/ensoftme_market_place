@@ -21,31 +21,33 @@
 
 {% block profile_content %}
     <div class="detail-info">
-        <h2 class="product-name">{{ request.user.get_full_name }}</h2>
+        <p class="contact-txt">{% trans "Nombre" %}: {{ request.user.first_name | default:"" }}</p>
 
-    <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
-							<div class="wrap-footer-item">
-								<h3 class="item-header">{% trans "Datos de contacto" %}</h3>
-								<div class="item-content">
-									<div class="wrap-contact-detail">
-										<ul>
-											<li>
-												<i class="fa fa-map-marker" aria-hidden="true"></i>
-												<p class="contact-txt">{{ request.user.profile.address }}</p>
-											</li>
-											<li>
-												<i class="fa fa-phone" aria-hidden="true"></i>
-												<p class="contact-txt">{{ request.user.profile.phone_number }}</p>
-											</li>
-											<li>
-												<i class="fa fa-envelope" aria-hidden="true"></i>
-												<p class="contact-txt">{{ request.user.email }}</p>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
+        <p class="contact-txt">{% trans "Apellidos" %}: {{ request.user.last_name | default:"" }}</p>
+
+        <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
+            <div class="wrap-footer-item">
+                <h3 class="item-header">{% trans "Datos de contacto" %}</h3>
+                <div class="item-content">
+                    <div class="wrap-contact-detail">
+                        <ul>
+                            <li>
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <p class="contact-txt">{{ request.user.profile.address|default:"" }}</p>
+                            </li>
+                            <li>
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <p class="contact-txt">{{ request.user.profile.phone_number|default:"" }}</p>
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <p class="contact-txt">{{ request.user.email|default:"" }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 {% endblock %}
