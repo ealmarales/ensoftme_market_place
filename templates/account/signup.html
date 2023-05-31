@@ -74,20 +74,7 @@
                                     {% endif %}
                                 </div>                         
 
-                            </fieldset>  
-                        {% for field in form %}
-                            <div>
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {{ field }}
-                            {% if field.errors %}
-                                <ul class="text-danger">
-                                {% for error in field.errors %}
-                                    <li>{{ error }}</li>
-                                {% endfor %}
-                                </ul>
-                            {% endif %}
-                            </div>
-                        {% endfor %}                        
+                            </fieldset>                                             
                             <input type="submit" class="btn btn-submit" value="{% trans "Sign Up" %}" name="submit">                           
                         </form>
                     </div>
