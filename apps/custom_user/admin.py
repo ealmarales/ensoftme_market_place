@@ -7,7 +7,6 @@ from .widgets import CustomGoogleMapsAddressWidget
 
 
 # Register your models here.
-
 @admin.register(models.Profile)
 class UserProfileAdmin(admin.ModelAdmin):
     formfield_overrides = {
