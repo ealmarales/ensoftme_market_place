@@ -1,0 +1,100 @@
+{% extends 'market/profile/profile_base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block profile_title %}<h3 class="box-title">{% trans "contactos" %} </h3>{% endblock profile_title %}
+{% block profile_actions %}<h3 class="box-title right">{% trans "add" %} </h3> {% endblock profile_actions %}
+
+{% block profile_action_list %}
+    <ul class="list-category">
+        <li class="category-item">
+            <a href="{% url "custom_user:profile" %}" class="cate-link">{% trans "Mi perfil" %}</a>
+        </li>
+        <li class="category-item">
+            <strong><a href="{% url "custom_user:profile_contacts" %}" class="cate-link">{% trans "Contactos" %}</a></strong>
+        </li>
+        <li class="category-item">
+            <a href="{% url "users:profile_address" %}" class="cate-link">{% trans "Direcciones" %}</a>
+        </li>
+    </ul>
+{% endblock profile_action_list %}
+
+
+{% block profile_content %}
+    <ul class="products-cart">
+        <li class="pr-cart-item">
+            <div class="product-image">
+                <figure><img src="{% static 'assets/images/products/digital_18.jpg' %}" alt="">
+                </figure>
+            </div>
+            <div class="product-name">
+                <a class="link-to-product" href="#">Radiant-360 R6 Wireless Omnidirectional Speaker
+                    [White]</a>
+            </div>
+            <div class="price-field produtc-price"><p class="price">$256.00</p></div>
+            <div class="price-field sub-total"><p class="price">$256.00</p></div>
+            <div class="delete">
+                <a href="#" class="btn btn-delete" title="">
+                    <span>Delete from your cart</span>
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                </a>
+            </div>
+        </li>
+        <li class="pr-cart-item">
+            <div class="product-image">
+                <figure><img src="{% static 'assets/images/products/digital_18.jpg' %}" alt="">
+                </figure>
+            </div>
+            <div class="product-name">
+                <a class="link-to-product" href="#">Radiant-360 R6 Wireless Omnidirectional Speaker
+                    [White]</a>
+            </div>
+            <div class="price-field produtc-price"><p class="price">$256.00</p></div>
+            <div class="price-field sub-total"><p class="price">$256.00</p></div>
+            <div class="delete">
+                <a href="#" class="btn btn-delete" title="">
+                    <span>Delete from your cart</span>
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                </a>
+            </div>
+        </li>
+        <li class="pr-cart-item">
+            <div class="product-image">
+                <figure><img src="{% static 'assets/images/products/digital_18.jpg' %}" alt="">
+                </figure>
+            </div>
+            <div class="product-name">
+                <a class="link-to-product" href="#">Radiant-360 R6 Wireless Omnidirectional Speaker
+                    [White]</a>
+            </div>
+            <div class="price-field produtc-price"><p class="price">$256.00</p></div>
+            <div class="price-field sub-total"><p class="price">$256.00</p></div>
+            <div class="delete">
+                <a href="#" class="btn btn-delete" title="">
+                    <span>Delete from your cart</span>
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                </a>
+            </div>
+        </li>
+        <li class="pr-cart-item">
+            <div class="product-image">
+                <figure><img src="{% static 'assets/images/products/digital_18.jpg' %}" alt="">
+                </figure>
+            </div>
+            <div class="product-name">
+                <a class="link-to-product" href="#">Radiant-360 R6 Wireless Omnidirectional Speaker
+                    [White]</a>
+            </div>
+            <div class="price-field produtc-price"><p class="price">$256.00</p></div>
+            <div class="price-field sub-total"><p class="price">$256.00</p></div>
+            <div class="delete">
+                <a href="#" class="btn btn-delete" title="">
+                    <span>Delete from your cart</span>
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                </a>
+            </div>
+        </li>
+
+    </ul>
+{% endblock %}

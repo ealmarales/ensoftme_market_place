@@ -1,0 +1,55 @@
+{% extends 'market/home_page_base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block head_title %} {% trans "Profile" %} {% endblock head_title%}
+
+{% block content %}
+	<!--main area-->
+	<main id="main" class="main-site left-sidebar">
+
+		<div class="container">
+
+			<div class="wrap-breadcrumb">
+				<ul>
+					<li class="item-link"><a href="{% url 'market:home' %}" class="link">{% trans 'home' %}</a></li>
+					<li class="item-link"><span>{% trans 'Profile' %}</span></li>
+				</ul>
+
+			</div>
+			<div class="row">
+
+                <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 main-content-area">
+                    <div class="wrap-iten-in-cart">
+                        {% block profile_title %}{% endblock profile_title %}
+                        {% block profile_actions %}{% endblock profile_actions %}
+
+                        {% block profile_content %}
+
+
+                        {% endblock profile_content %}
+                    </div>
+
+                    <!--end wrap shop control-->
+                </div>
+                <!--end main products area-->
+
+				<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 sitebar">
+					<div class="widget mercado-widget categories-widget">
+                        <div class="widget-content">
+                            {% block profile_action_list %}
+                            {% endblock profile_action_list %}
+                        </div>
+                    </div><!-- Categories widget-->
+
+				</div>
+                <!--end sitebar-->
+
+			</div><!--end row-->
+
+		</div><!--end container-->
+
+	</main>
+	<!--main area-->
+{% endblock %}
