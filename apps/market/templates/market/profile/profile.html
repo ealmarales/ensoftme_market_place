@@ -8,13 +8,13 @@
 {% block profile_action_list %}
     <ul class="list-category">
         <li class="category-item">
-            <strong><a href="{% url "custom_user:profile" %}" class="cate-link">{% trans "Mi perfil" %}</a></strong>
+            <i class="fa fa-user" aria-hidden="true"></i>  <strong><a href="{% url "custom_user:profile" %}" class="cate-link">{% trans "Mi perfil" %}</a></strong>
         </li>
         <li class="category-item">
-            <a href="{% url "custom_user:profile_contacts" %}" class="cate-link">{% trans "Contactos" %}</a>
+            <i class="fa fa-users" aria-hidden="true"></i> <a href="{% url "custom_user:profile_contacts" %}" class="cate-link">{% trans "Contactos" %}</a>
         </li>
         <li class="category-item">
-            <a href="{% url "users:profile_address" %}" class="cate-link">{% trans "Direcciones" %}</a>
+            <i class="fa fa-address-card-o" aria-hidden="true"></i> <a href="{% url "users:profile_address" %}" class="cate-link">{% trans "Direcciones" %}</a>
         </li>
     </ul>
 {% endblock profile_action_list %}
