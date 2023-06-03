@@ -1,13 +1,16 @@
-from allauth.account.signals import user_signed_up
+from django.contrib.auth import get_user_model
+
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from apps.custom_user.models import Profile
 
+User = get_user_model()
 
-@receiver(user_signed_up)
-def populate_profile(sociallogin, user, **kwargs):
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
     """ When a user registers, their corresponding profile is created. """
-    if sociallogin.account.provider == 'google':
-        # user_data = user.socialaccount_set.filter(provider='google')[0].extra_data
-        user.profile = Profile()
-    user.profile.save()
+    if created:
+        instance.profile = Profile()
+        instance.profile.save()
