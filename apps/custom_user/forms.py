@@ -42,6 +42,6 @@ class BeneficiaryAddForm(forms.Form):
     """
     Used to add beneficiaries to user profile.
     """
-    phone_number = forms.CharField(label=_('phone number'), max_length=10, null=True, blank=True)
     email = forms.EmailField(label=_('email'), )
-    decription = forms.CharField(label=_('description'), max_length=255, null=True, blank=True)
+    phone_number = forms.CharField(label=_('phone number'), max_length=10, required=False)
+    decription = forms.CharField(label=_('description'), max_length=255, required=False)

@@ -3,9 +3,10 @@ from django. contrib. auth. mixins import LoginRequiredMixin
 # Create your views here.
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView, FormView
 
 from apps.custom_user import forms
+from apps.custom_user import models
 
 
 class ProfilePageView(LoginRequiredMixin,
@@ -41,15 +42,11 @@ class ProfilePageView(LoginRequiredMixin,
 
 
 class ProfileContactPageView(LoginRequiredMixin,
-                             UpdateView,
+                             FormView,
                              ):
     """View to edit contact data from the user profile"""
-    form_class = forms.
+    form_class = forms.BeneficiaryAddForm
     template_name = "custom_user/profile/profile_contacts.html"
-
-
-    def get_object(self, queryset=None):
-        return self.request.user.profile
 
 
 class ProfileAddressPageView(LoginRequiredMixin,

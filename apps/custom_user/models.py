@@ -27,7 +27,7 @@ class Profile(models.Model):
     address = map_fields.AddressField(_('address'), max_length=200, null=True, blank=True)
     geolocation = map_fields.GeoLocationField(max_length=100, null=True, blank=True)
 
-    beneficiaries = models.ManyToManyField(Beneficiary, related_name='beneficiaries', null=True, blank=True)
+    beneficiaries = models.ManyToManyField(Beneficiary, related_name='beneficiaries')
 
     def __str__(self):
         return self.user.__str__()

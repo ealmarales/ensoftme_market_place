@@ -3,8 +3,9 @@
 {% load static %}
 {% load i18n %}
 
+{% load crispy_forms_tags %}
+
 {% block profile_title %}<h3 class="box-title">{% trans "contactos" %} </h3>{% endblock profile_title %}
-{% block profile_actions %}<h3 class="box-title right">{% trans "add" %} </h3> {% endblock profile_actions %}
 
 {% block profile_action_list %}
 <ul class="list-category">
@@ -20,6 +21,35 @@
 </ul>
 {% endblock profile_action_list %}
 
+{% block profile_actions %}
+    <button type="button" data-target="#editMezalta" data-toggle="modal"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+
+    <div class="modal fade" id="editMezalta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">{% trans 'Adicionar beneficiario' %}</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+
+                        {{ form|crispy }}
+                        {{ contact_form|crispy }}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cerrar" %}</button>
+                        <input type="submit" class="btn btn-primary" value="{% trans "Guardar" %}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock profile_actions %}
 
 {% block profile_content %}
     <ul class="products-cart">
