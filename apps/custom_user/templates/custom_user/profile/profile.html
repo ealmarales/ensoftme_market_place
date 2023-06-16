@@ -1,0 +1,92 @@
+{% extends 'custom_user/profile/profile_base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% block profile_title %}<h3 class="box-title">{% trans "mi perfil" %} </h3>{% endblock profile_title %}
+
+{% block profile_action_list %}
+    <ul class="list-category">
+        <li class="category-item">
+            <i class="fa fa-user" aria-hidden="true"></i> <strong><a href="{% url "custom_user:profile" %}"
+                                                                     class="cate-link">{% trans "Mi perfil" %}</a></strong>
+        </li>
+        <li class="category-item">
+            <i class="fa fa-users" aria-hidden="true"></i> <a href="{% url "custom_user:profile_contacts" %}"
+                                                              class="cate-link">{% trans "Contactos" %}</a>
+        </li>
+        <li class="category-item">
+            <i class="fa fa-address-card-o" aria-hidden="true"></i> <a href="{% url "users:profile_address" %}"
+                                                                       class="cate-link">{% trans "Direcciones" %}</a>
+        </li>
+    </ul>
+{% endblock profile_action_list %}
+
+{#{% block profile_actions %}<h3 class="box-title right btn" data-target="#editMezalta" data-toggle="modal">{% trans "edit" %} </h3> {% endblock profile_actions %}#}
+{% block profile_actions %}
+    <button type="button" data-target="#editMezalta" data-toggle="modal"><i class="fa fa-edit" aria-hidden="true"></i>
+    </button>
+{% endblock %}
+
+{% block profile_content %}
+    <div class="detail-info">
+        <p class="contact-txt">{% trans "Nombre" %}: {{ request.user.first_name | default:"" }}</p>
+
+        <p class="contact-txt">{% trans "Apellidos" %}: {{ request.user.last_name | default:"" }}</p>
+
+        <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
+            <div class="wrap-footer-item">
+                <h3 class="item-header">{% trans "Datos de contacto" %}</h3>
+                <div class="item-content">
+                    <div class="wrap-contact-detail">
+                        <ul>
+                            <li>
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <p class="contact-txt">{{ request.user.profile.address|default:"" }}</p>
+                            </li>
+                            <li>
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <p class="contact-txt">{{ request.user.profile.phone_number|default:"" }}</p>
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <p class="contact-txt">{{ request.user.email|default:"" }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="modal fade" id="editMezalta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">{% trans 'Editar datos de usuario' %}</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+
+                        {{ form|crispy }}
+                        {{ contact_form|crispy }}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cerrar" %}</button>
+                        <input type="submit" class="btn btn-primary" value="{% trans "Guardar" %}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

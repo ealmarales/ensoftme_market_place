@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'django_google_maps',
 
+    "crispy_forms",
+    "crispy_bootstrap4",
 
     # Local Apps
     'core.coin.apps.CoinConfig',
@@ -66,12 +68,11 @@ INSTALLED_APPS = [
     'apps.custom_user.apps.UserProfileConfig',
 
     'apps.market.apps.MarketConfig',
-    
+
 
 ]
 
 SITE_ID = env.int('SITE_ID')
-
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -88,11 +89,10 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         },
     }
-
 }
 
-
-
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -158,7 +158,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -198,10 +198,9 @@ ACCOUNT_LOGOUT_REDIRECT = "market:home"
 
 # Additional configuration settings
 SOCIALACCOUNT_QUERY_EMAIL = True
-ACCOUNT_LOGOUT_ON_GET= True
+ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
 
+GOOGLE_MAPS_API_KEY = 'AIzaSyA6aPPrd3qzYfHkz0kARMRrOpTch01D22I'
 
-
-GOOGLE_MAPS_API_KEY  = 'AIzaSyA6aPPrd3qzYfHkz0kARMRrOpTch01D22I'
