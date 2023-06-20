@@ -16,4 +16,5 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(models.Beneficiary)
 class BeneficiaryAdmin(admin.ModelAdmin):
-    list_display = ('beneficiary', 'decription')
+    list_display = ('pk','email', 'user', 'inviter','decription', )
+    list_filter = ('inviter', )

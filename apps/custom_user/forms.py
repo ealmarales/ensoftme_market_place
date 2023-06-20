@@ -3,8 +3,6 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
-from django.utils.translation import gettext_lazy as _
-
 from apps.custom_user import models
 
 
@@ -38,10 +36,34 @@ class UserContactDataProfileform(forms.ModelForm):
         fields = ['phone_number', 'address', ]
 
 
-class BeneficiaryAddForm(forms.Form):
+class BeneficiaryAddForm(forms.ModelForm):
     """
     Used to add beneficiaries to user profile.
     """
-    email = forms.EmailField(label=_('email'), )
-    phone_number = forms.CharField(label=_('phone number'), max_length=10, required=False)
-    decription = forms.CharField(label=_('description'), max_length=255, required=False)
+    class Meta:
+        model = models.Beneficiary
+        fields = ['email',
+                  'phone_number',
+                  'decription',
+                  'inviter',
+                  ]
+        widgets = {
+            'inviter': forms.HiddenInput()
+        }
+
+
+class BeneficiaryUpdateModelForm(forms.ModelForm):
+    """ Used to update beneficiaries data. """
+    beneficiary = forms.IntegerField()  # beneficiary identifier to update
+
+    class Meta:
+        model = models.Beneficiary
+        fields = ['phone_number',
+                  'decription',
+                  'beneficiary',
+                  ]
+
+        widgets = {
+            'beneficiary': forms.HiddenInput()
+        }
+        # TODO: hide beneficiary field

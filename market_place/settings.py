@@ -62,13 +62,14 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap4",
 
+    "invitations",
+
     # Local Apps
     'core.coin.apps.CoinConfig',
     'core.address.apps.AddressConfig',
     'apps.custom_user.apps.UserProfileConfig',
 
     'apps.market.apps.MarketConfig',
-
 
 ]
 
@@ -204,3 +205,5 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 GOOGLE_MAPS_API_KEY = 'AIzaSyA6aPPrd3qzYfHkz0kARMRrOpTch01D22I'
 
+# django-invitations settings see https://django-invitations.readthedocs.io/en/latest
+ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'

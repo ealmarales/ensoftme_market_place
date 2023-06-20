@@ -1,0 +1,148 @@
+{% extends 'custom_user/profile/profile_base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% block profile_title %}<h3 class="box-title">{% trans "contactos" %} </h3>{% endblock profile_title %}
+
+{% block profile_action_list %}
+    <ul class="list-category">
+        <li class="category-item">
+            <i class="fa fa-user" aria-hidden="true"></i> <strong><a href="{% url "custom_user:profile" %}"
+                                                                     class="cate-link">{% trans "Mi perfil" %}</a></strong>
+        </li>
+        <li class="category-item">
+            <i class="fa fa-users" aria-hidden="true"></i> <a href="{% url "custom_user:profile_contacts" %}"
+                                                              class="cate-link">{% trans "Contactos" %}</a>
+        </li>
+        <li class="category-item">
+            <i class="fa fa-address-card-o" aria-hidden="true"></i> <a href="{% url "users:profile_address" %}"
+                                                                       class="cate-link">{% trans "Direcciones" %}</a>
+        </li>
+    </ul>
+{% endblock profile_action_list %}
+
+{% block profile_actions %}
+    <button type="button" data-target="#addBeneficiaryModalForm" data-toggle="modal"><i class="fa fa-plus-circle"
+                                                                                        aria-hidden="true"></i></button>
+    <!-- Create form -->
+    <div class="modal fade" id="addBeneficiaryModalForm" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">{% trans 'Adicionar beneficiario' %}</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+
+                        {{ form|crispy }}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cerrar" %}</button>
+                        <input type="submit" class="btn btn-primary" value="{% trans "Guardar" %}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update form -->
+        <div class="modal fade" id="updateBeneficiaryModalForm" tabindex="-1" role="dialog"
+         aria-labelledby="updateBeneficiaryModalFormLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="updateBeneficiaryModalFormLabel">{% trans 'Actualizar beneficiario' %}</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+
+{#                        {{ beneficiary_update_form|crispy }}#}
+                        {{ beneficiary_update_form.as_p}}
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cerrar" %}</button>
+                        <input type="submit" class="btn btn-primary" value="{% trans "Guardar" %}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock profile_actions %}
+
+{% block profile_content %}
+    <ul class="products-cart">
+        {% for beneficiary in request.user.beneficiaries.all %}
+
+            <li class="pr-cart-item">
+                <div class="product-image">
+                    <figure><img src="{% static 'assets/images/products/digital_18.jpg' %}" alt="">
+                    </figure>
+                </div>
+                <div class="product-name">
+                    <a class="link-to-product" href="" data-target="#updateBeneficiaryModalForm" data-toggle="modal"
+                       data-phone-number="{{beneficiary.phone_number}}"
+                       data-id="{{beneficiary.pk}}"
+                       data-decription="{{beneficiary.decription}}" >
+                        {{ beneficiary }}
+                    </a>
+                </div>
+                <div class="delete">
+                    <a href="#" class="btn btn-delete" title="">
+                        <span>Delete from your cart</span>
+                        <i class="fa fa-times-circle" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+            </li>
+        {% empty %}
+            <p>{% blocktrans %} No se encontraron beneficiarios. {% endblocktrans %}</p>
+        {% endfor %}
+
+
+    </ul>
+{% endblock %}
+
+{% block extra_body %}
+    <script type="application/javascript">
+        $(document).ready(function () {
+            var erros = $("#addBeneficiaryModalForm > div > div > form > div.modal-body > div.alert.alert-block.alert-danger")
+            if (erros.length > 0) {
+                $('#addBeneficiaryModalForm').modal('toggle');
+            }
+
+
+        });
+    </script>
+
+    <!-- autocomplete update beneficiary form script -->
+    <script>
+        $('#updateBeneficiaryModalForm').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var phone_number_value = button.data('phone-number') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var decription_value = button.data('decription');
+            var beneficiary_id_value = button.data('id') // Extract info from data-* attributes
+
+            var modal = $(this);
+            modal.find('#id_phone_number').val(phone_number_value);
+            modal.find('#id_decription').val(decription_value);
+            modal.find('#id_beneficiary').val(beneficiary_id_value);
+        })
+    </script>
+{% endblock extra_body %}
