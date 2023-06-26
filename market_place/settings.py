@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
 
     "invitations",
+    "debug_toolbar", 
 
     # Local Apps
     'core.coin.apps.CoinConfig',
@@ -109,6 +110,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'market_place.urls'
@@ -227,3 +229,10 @@ GOOGLE_MAPS_API_KEY = 'AIzaSyA6aPPrd3qzYfHkz0kARMRrOpTch01D22I'
 
 # django-invitations settings see https://django-invitations.readthedocs.io/en/latest
 ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
+
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
