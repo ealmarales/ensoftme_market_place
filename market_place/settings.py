@@ -40,6 +40,11 @@ GOOGLE_CLIENT_SECRET = env('GOOGLE_CLIENT_SECRET')
 #ALLOWED_HOSTS = []
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
+# SITE NAME 
+SITE_NAME = env('SITE_NAME')
+# SITE  DOMAIN 
+SITE_DOMAIN = env('SITE_DOMAIN')
+
 
 # Application definition
 
@@ -119,6 +124,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },
@@ -194,8 +200,19 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# EmaiL in Console
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" 
+# Emai
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.shopylake.com'
+EMAIL_PORT = 587  # Puerto SMTP del servidor de correo
+EMAIL_HOST_USER = 'team@shopylake.com'
+EMAIL_HOST_PASSWORD = 'c6mr8B2p>V'
+EMAIL_USE_TLS = True  # Configúralo en True si necesitas TLS
+DEFAULT_FROM_EMAIL = 'team@shopylake.com'
+
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
 
 LOGIN_REDIRECT_URL = "market:home"
 ACCOUNT_LOGOUT_REDIRECT = "market:home"
