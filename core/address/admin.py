@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django_google_maps import widgets as map_widgets
+from django_google_maps import fields as map_fields
 
 # Register your models here.
 from core.address.models import Country, Province, Municipality, Address
@@ -21,11 +23,8 @@ class MunicipalityAdmin(admin.ModelAdmin):
     list_filter = ('province', )
 
 
+@admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
-    # Register your Address model with the admin
-
-    class Media:
-        js = ('js/address_admin.js',) 
-
-
-admin.site.register(Address, AddressAdmin)
+    formfield_overrides = {
+        map_fields.AddressField: {'widget': map_widgets.GoogleMapsAddressWidget},
+    }

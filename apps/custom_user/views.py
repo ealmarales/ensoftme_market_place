@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model
 from invitations.utils import get_invitation_model
 
 from apps.custom_user.models import Beneficiary
+from core.address.models import Address
 
 User = get_user_model()
 
@@ -24,7 +25,7 @@ class ProfilePageView(LoginRequiredMixin,
                       ):
     """View to edit personal data from the user profile"""
     form_class = forms.UserPersonalDataProfileForm
-    contact_form_class = forms.UserContactDataProfileform
+    contact_form_class = forms.UserProfileContactDataForm
 
     template_name = "custom_user/profile/profile.html"
     success_url = reverse_lazy('custom_user:profile')
@@ -35,7 +36,7 @@ class ProfilePageView(LoginRequiredMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if 'contact_form' not in context:
-            context['contact_form'] = forms.UserContactDataProfileform(instance=self.request.user.profile)
+            context['contact_form'] = forms.UserProfileContactDataForm(instance=self.request.user.profile)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -128,7 +129,21 @@ class ProfileContactPageView(LoginRequiredMixin,
         return HttpResponseRedirect(self.success_url)
 
 
-class ProfileAddressPageView(LoginRequiredMixin,
-                             TemplateView
-                             ):
-    template_name = "custom_user/profile/profile_address.html"
+class ProfileKnownAddressPageView(LoginRequiredMixin,
+                                  CreateView,
+                                  ):
+
+    form_class = forms.KnowAddressAddForm
+    know_address_update_form_class = forms.KnowAddressUpdateFormClass
+
+    template_name = "custom_user/profile/profile_known_address.html"
+    success_url = reverse_lazy('custom_user:profile_address')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'know_address_update_form' not in context:
+            context['know_address_update_form'] = self.know_address_update_form_class()
+        return context
+
+
+

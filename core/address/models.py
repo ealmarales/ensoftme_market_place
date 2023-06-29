@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django_google_maps import fields as map_fields
 
 
 # Create your models here.
@@ -31,15 +32,14 @@ class Municipality(models.Model):
 
 
 class Address(models.Model):
-    name_address = models.CharField(default= "", max_length=200, blank=False,)
+    name_address = models.CharField(max_length=200)
+
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)
 
-    street = models.CharField(_('street'), max_length=255, blank=True, null=True)
-    between_street1 = models.CharField(max_length=255, blank=True, null=True)
-    nambetween_street1 = models.CharField(max_length=255, blank=True, null=True)
-    number = models.CharField(_('number'), max_length=20, blank=True, null=True)
+    address = map_fields.AddressField(max_length=200)
+    geolocation = map_fields.GeoLocationField(max_length=100)
 
     def __str__(self):
         return self.name_address

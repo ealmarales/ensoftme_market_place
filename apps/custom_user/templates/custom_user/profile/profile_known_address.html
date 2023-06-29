@@ -3,7 +3,9 @@
 {% load static %}
 {% load i18n %}
 
-{% block profile_title %}<h3 class="box-title">{% trans "Direcciones" %} </h3>{% endblock profile_title %}
+{% load crispy_forms_tags %}
+
+{% block profile_title %}<h3 class="box-title">{% trans "Direcciones conocidas" %} </h3>{% endblock profile_title %}
 
 {% block profile_action_list %}
 <ul class="list-category">
@@ -21,17 +23,78 @@
 
 
 {% block profile_content %}
+    <button type="button" data-target="#addKnowAdressModalForm" data-toggle="modal"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+
+    <!-- Create form -->
+    <div class="modal fade" id="addKnowAdressModalForm" tabindex="-1" role="dialog"
+         aria-labelledby="addKnowAdressModalFormLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">{% trans 'Adicionar dirección' %}</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+
+                        {{ form|crispy }}
+{#                        {{ form}}#}
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cerrar" %}</button>
+                        <input type="submit" class="btn btn-primary" value="{% trans "Guardar" %}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update form -->
+    <div class="modal fade" id="updateKnownAddressModalForm" tabindex="-1" role="dialog"
+         aria-labelledby="updateKnownAddressModalFormLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="updateBeneficiaryModalFormLabel">{% trans 'Actualizar dirección' %}</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+
+                        {{ know_address_update_form|crispy }}
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cerrar" %}</button>
+                        <input type="submit" class="btn btn-primary" value="{% trans "Guardar" %}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <ul class="products-cart">
+        {% for known_address in request.user.profile.known_addresses.all %}
         <li class="pr-cart-item">
             <div class="product-image">
                 <figure><img src="{% static 'assets/images/products/digital_18.jpg' %}" alt="">
                 </figure>
             </div>
             <div class="product-name">
-                <a class="link-to-product" href="#">Radiant-360 R6 Wireless Omnidirectional Speaker</a>
+                <a class="link-to-product" href="" data-target="#updateKnownAddressModalForm" data-toggle="modal"
+                       data-id="{{known_address.pk}}"
+                       data-name_address="{{known_address.name_address}}" >
+                        {{ known_address }}
+                    </a>
             </div>
-            <div class="price-field produtc-price"><p class="price">$256.00</p></div>
-            <div class="price-field sub-total"><p class="price">$256.00</p></div>
+
             <div class="delete">
                 <a href="#" class="btn btn-delete" title="">
                     <span>Delete from your cart</span>
@@ -39,5 +102,37 @@
                 </a>
             </div>
         </li>
+        {% empty %}
+            <p>{% blocktrans %} No se encontraron direcciones conocidas. {% endblocktrans %}</p>
+
+        {% endfor %}
     </ul>
 {% endblock %}
+
+{% block extra_body %}
+    <script type="application/javascript">
+        $(document).ready(function () {
+            var erros = $("#addKnowAdressModalForm > div > div > form > div.modal-body > div.alert.alert-block.alert-danger")
+            if (erros.length > 0) {
+                $('#addKnowAdressModalForm').modal('toggle');
+            }
+
+
+        });
+    </script>
+
+    <!-- autocomplete update beneficiary form script -->
+    <script>
+        $('#updateKnownAddressModalForm').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var name_address_value = button.data('name_address') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var knowaddress_id_value = button.data('id') // Extract info from data-* attributes
+
+            var modal = $(this);
+            modal.find('#id_name_address').val(name_address_value);
+            {#modal.find('#id_beneficiary').val(name_address_value);#}
+        })
+    </script>
+{% endblock extra_body %}
