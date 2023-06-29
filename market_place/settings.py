@@ -37,7 +37,13 @@ DEBUG = env('DEBUG')
 GOOGLE_CLIENT_ID = env('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = env('GOOGLE_CLIENT_SECRET')
 
-ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+
+# SITE NAME 
+SITE_NAME = env('SITE_NAME')
+# SITE  DOMAIN 
+SITE_DOMAIN = env('SITE_DOMAIN')
 
 
 # Application definition
@@ -63,6 +69,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
 
     "invitations",
+    "debug_toolbar", 
 
     # Local Apps
     'core.coin.apps.CoinConfig',
@@ -103,6 +110,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'market_place.urls'
@@ -118,6 +126,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },
@@ -130,9 +139,11 @@ WSGI_APPLICATION = 'market_place.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'default': {      
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASS'),
     }
 }
 
@@ -191,8 +202,19 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# EmaiL in Console
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" 
+# Emai
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.shopylake.com'
+EMAIL_PORT = 587  # Puerto SMTP del servidor de correo
+EMAIL_HOST_USER = 'team@shopylake.com'
+EMAIL_HOST_PASSWORD = 'c6mr8B2p>V'
+EMAIL_USE_TLS = True  # Configúralo en True si necesitas TLS
+DEFAULT_FROM_EMAIL = 'team@shopylake.com'
+
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
 
 LOGIN_REDIRECT_URL = "market:home"
 ACCOUNT_LOGOUT_REDIRECT = "market:home"
@@ -207,3 +229,10 @@ GOOGLE_MAPS_API_KEY = 'AIzaSyA6aPPrd3qzYfHkz0kARMRrOpTch01D22I'
 
 # django-invitations settings see https://django-invitations.readthedocs.io/en/latest
 ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
+
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
