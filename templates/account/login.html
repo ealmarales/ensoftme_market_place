@@ -1,149 +1,80 @@
-{% extends "account/base.html" %}
+{% extends "market/base.html" %}
 
 {% load i18n %}
+{% load static %}
 {% load account socialaccount %}
 
-{% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% block title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html" rel="nofollow">Home</a>
+                    <span></span> Login
+                </div>
+            </div>
+        </div>
+        <section class="pt-50 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                                <div class="padding_eight_all bg-white">
+                                    <div class="heading_s1">
+                                        <h3 class="mb-30">{% trans "Sign In" %}</h3>
+                                        {% get_providers as socialaccount_providers %}
 
-{#<h1>{% trans "Sign In" %}</h1>#}
-{##}
-{#{% get_providers as socialaccount_providers %}#}
-{##}
-{#{% if socialaccount_providers %}#}
-{#<p>{% blocktrans with site.name as site_name %}Please sign in with one#}
-{#of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>#}
-{#for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>#}
-{##}
-{#<div class="socialaccount_ballot">#}
-{##}
-{#  <ul class="socialaccount_providers">#}
-{#    {% include "socialaccount/snippets/provider_list.html" with process="login" %}#}
-{#  </ul>#}
-{##}
-{#  <div class="login-or">{% trans 'or' %}</div>#}
-{##}
-{#</div>#}
-{##}
-{#{% include "socialaccount/snippets/login_extra.html" %}#}
-{##}
-{#{% else %}#}
-{#<p>{% blocktrans %}If you have not created an account yet, then please#}
-{#<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>#}
-{#{% endif %}#}
-{##}
-{#<form class="login" method="POST" action="{% url 'account_login' %}">#}
-{#  {% csrf_token %}#}
-{#  {{ form.as_p }}#}
-{#  {% if redirect_field_value %}#}
-{#  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />#}
-{#  {% endif %}#}
-{#  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>#}
-{#  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>#}
-{#</form>#}
+{% if socialaccount_providers %}
+    <p>{% blocktrans with site.name as site_name %}Please sign in with one
+of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
-    <div class="wrap-breadcrumb">
-        <ul>
-            <li class="item-link"><a href="{% url 'market:home' %}" class="link">{% trans "Home" %}</a></li>
-            <li class="item-link"><span>{% trans "login" %}</span></li>
-        </ul>
-    </div>
-    <div class="row">
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 col-md-offset-3">
-            <div class=" main-content-area">
-                <div class="wrap-login-item ">
-                    <div class="login-form form-item form-stl">
+<div class="socialaccount_ballot">
 
-                        <form method="POST" action="{% url 'account_login' %}" name="frm-login">
-                            {% csrf_token %}
-                            <fieldset class="wrap-title">
-{#                                *************#}
-                                <div class="account-form">
-                                    <h1>{% trans "Login" %}</h1>
+  <ul class="socialaccount_providers">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
 
-                                    {% get_providers as socialaccount_providers %} {% if socialaccount_providers %}
-                                    <p>
-                                        {% blocktrans with site.name as site_name %}Please sign in with one of your
-                                            existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-                                            for
-                                            our website account and sign in below:{% endblocktrans %}
-                                    </p>
+  <div class="login-or">{% trans 'or' %}</div>
 
-                                    <div class="socialaccount_ballot">
-                                        <ul class="socialaccount_providers">
-                                            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                                        </ul>
+</div>
 
-                                        <div class="login-or">{% trans 'or' %}</div>
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+<p>{% blocktrans %}If you have not created an account yet, then please
+<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+{% endif %}
+
                                     </div>
-
-                                {% endif %}
-
-
-
-
-{#                                **********#}
-
+                                    <form method="post">
+                                        {% csrf_token %}
+  {{ form }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
 
 
-                                <h3 class="form-title">{% trans "Log in to your account" %}</h3>
-                            </fieldset>
-                            <fieldset class="wrap-input">
-                                <label for="{{ form.login.name }}">{% trans "Username or email" %}:</label>
-                                {#                                        <input type="text" id="frm-login-uname" name="email"#}
-                                {#                                               placeholder="Type your email address">#}
-                                {{ form.login }}
-                                <span class="text-error">{{ form.login.errors }}</span>
-                            </fieldset>
-                            <fieldset class="wrap-input">
-                                <label for="{{ form.password.name }}">{% trans "Password" %}:</label>
-                                {#                                        <input type="password" id="frm-login-pass" name="pass"#}
-                                {#                                               placeholder="************">#}
-                                {{ form.password }}
-                                <span class="text-error">{{ form.password.errors }}</span>
-
-                                {% if form.errors %}
-                                    <ul class="text-danger">
-                                        {% for field in form %}
-                                            {% for error in field.errors %}
-
-                                                <li>{{ error|escape }}</li>
-
-                                            {% endfor %}
-                                        {% endfor %}
-                                        {% for error in form.non_field_errors %}
-
-                                            <li>{{ error|escape }}</li>
-
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-
-                                {% if redirect_field_value %}
-                                    <input type="hidden" name="{{ redirect_field_name }}"
-                                           value="{{ redirect_field_value }}"/>
-                                {% endif %}
-
-
-                            </fieldset>
-
-                            <fieldset class="wrap-input">
-                                <label class="remember-field">
-                                    {#                                            <input class="frm-input " name="rememberme" id="rememberme" value="forever"#}
-                                    {#                                                   type="checkbox"><span>Remember me</span>#}
-                                    {{ form.remember }}<span>{% trans "Remember me" %}</span>
-
-                                </label>
-                                <a class="link-function left-position" href="{% url 'account_reset_password' %}"
-                                   title="{% trans "Forgotten password?" %}">{% trans "Forgotten password?" %}</a>
-                            </fieldset>
-                            <input type="submit" class="btn btn-submit" value="{% trans "Login" %}" name="submit">
-                        </form>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-fill-out btn-block hover-up"
+                                                    name="login">{% trans "Sign In" %}
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-6">
+                            <img src="{% static 'assets/imgs/login.png' %}">
+                        </div>
                     </div>
                 </div>
-            </div><!--end main products area-->
+            </div>
         </div>
-    </div><!--end row-->
+    </section>
 
 {% endblock %}

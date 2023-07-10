@@ -7096,7 +7096,7 @@ background-color: #888888;
 	position: relative;
 	text-align: center;
 	height: 250px;
-	background: url('../../assets/images/2-megamenu_kid_toy_1.jpg') !important;
+	background: url('../images/2-megamenu_kid_toy_1.jpg') !important;
 	background-size: cover;
 	background-position: center;
 }

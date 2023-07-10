@@ -42,7 +42,7 @@ class Profile(models.Model):
 
     saldo = models.FloatField(default=0)
 
-    phone_number = models.CharField(_('phone number'), max_length=10, null=True, blank=True)
+    phone_number = models.CharField(_('número de teléfono'), max_length=10, null=True, blank=True)
 
     known_addresses = models.ManyToManyField(Address, )
 

@@ -20,7 +20,7 @@ class Province(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name} / {self.country}"
+        return self.name
 
 
 class Municipality(models.Model):
@@ -28,7 +28,7 @@ class Municipality(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name} / {self.province}"
+        return self.name
 
 
 class Address(models.Model):
