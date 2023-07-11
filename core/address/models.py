@@ -11,16 +11,20 @@ class Country(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = _('country')
-        verbose_name_plural = _('countries')
+        verbose_name = _('pais')
+        verbose_name_plural = _('paises')
 
 
 class Province(models.Model):
-    name = models.CharField(_('province'), max_length=255, )
+    name = models.CharField(_('provincia'), max_length=255, )
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _('provincia')
+        verbose_name_plural = _('provincias')
 
 
 class Municipality(models.Model):
@@ -30,16 +34,24 @@ class Municipality(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = _('municipio')
+        verbose_name_plural = _('municipios')
+
 
 class Address(models.Model):
-    name_address = models.CharField(max_length=200)
+    name_address = models.CharField(_('descripción'), max_length=200)
+    address = map_fields.AddressField(max_length=200, verbose_name=_('dirección'))
 
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE)
-    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, verbose_name=_('pais'))
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name=_('provincia'))
+    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name=_('municipio'))
 
-    address = map_fields.AddressField(max_length=200)
-    geolocation = map_fields.GeoLocationField(max_length=100)
+    geolocation = map_fields.GeoLocationField(max_length=100, verbose_name=_('coordenadas'))
 
     def __str__(self):
         return self.name_address
+
+    class Meta:
+        verbose_name = _('dirección')
+        verbose_name_plural = _('direcciones')

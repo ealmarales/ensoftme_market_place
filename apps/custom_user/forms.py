@@ -78,38 +78,11 @@ class KnowAddressAddForm(forms.ModelForm):
         fields = '__all__'
 
 
-class KnowAddressUpdateFormClass(forms.ModelForm):
-    class Meta:
-        model = Address
-        fields = '__all__'
+class KnowAddressUpdateFormClass(KnowAddressAddForm):
+    address_id = forms.IntegerField()  # beneficiary identifier to update
 
-
-class ProfileForm(forms.Form):
-    action = forms.CharField(max_length=100)
-
-    # personal data user profile
-    first_name = forms.CharField(label=_('first name'), max_length=255)
-    last_name = forms.CharField(label=_('last name'), max_length=255)
-    email = forms.EmailField(label=_('email'), )
-
-    # contact data user profile
-    phone_number = forms.CharField(label=_('número telefónico'), max_length=50)
-
-    # address
-    name_address = forms.CharField(label=_('descripción'), max_length=200)
-    country = forms.ModelChoiceField(label=_('país'), queryset=Country.objects.all())
-    province = forms.ModelChoiceField(label=_('provincia'), queryset=Province.objects.all())
-    municipality = forms.ModelChoiceField(label=_('municipio'), queryset=Municipality.objects.all())
-    # address = AddressField(max_length=200)
-    # geolocation = GeoLocationField(max_length=100)
-    # TODO: utilizar los campos para renderizar el mapa de googlemap
-
-    # beneficiary
-    beneficiary_email = forms.EmailField(label=_('email'), )
-    beneficiary_phone_number = forms.CharField(label=_('número telefónico'), max_length=50)
-    beneficiary_decription = forms.CharField(label=_('descripción'), max_length=255)
-    beneficiary_inviter = forms.HiddenInput()
-
-
-
+    widgets = {
+        'address_id': forms.HiddenInput()
+    }
+    # TODO: hide beneficiary field
 

@@ -119,34 +119,6 @@
 
         })
     </script>
-
-    <!-- autocomplete address update data -->
-    <script>
-        $('#addressupdateModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-
-            var action_value = button.data('action');
-            console.log(action_value);
-
-
-            var modal = $(this);
-            modal.find('#id_action').val(action_value);
-
-            if (action_value == 'ADDRESS_UPDATE'){
-                var name_address = button.data('name_address');
-                var country = button.data('country');
-                var province = button.data('province');
-                var municipality = button.data('municipality');
-
-                modal.find('#id_name_address').val(name_address);
-                $('#id_country option[value=' + country + ']').prop("selected", true);
-                $('#id_province option[value=' + province + ']').prop("selected", true);
-                $('#id_municipality option[value=' + municipality + ']').prop("selected", true);
-
-            }
-
-        })
-    </script>
 {% endblock extra_body %}
 
 

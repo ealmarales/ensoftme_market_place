@@ -6,6 +6,33 @@
 {% load crispy_forms_tags %}
 
 {% block profile_content %}
+    <!-- Address Add Modal -->
+    <div class="modal fade" id="addressAddModal" tabindex="-1" aria-labelledby="addressAddModalModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addressAddModalLabel">{% blocktrans %}Adicionar
+                        dirección{% endblocktrans %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    {{ form|crispy }}
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{% trans "Cancelar" %}</button>
+                    <button type="submit" class="btn btn-primary">{% trans "Guardar" %}</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Address Update Modal -->
     <div class="modal fade" id="addressupdateModal" tabindex="-1" aria-labelledby="addressupdateModalLabel"
                      aria-hidden="true">
@@ -19,18 +46,7 @@
                             </div>
                             <div class="modal-body">
 
-                                <div class="input-style mb-20">
-                                    {{ form.name_address|as_crispy_field }}
-                                </div>
-                                <div class="input-style mb-20">
-                                    {{ form.country|as_crispy_field }}
-                                </div>
-                                <div class="input-style mb-20">
-                                    {{ form.province|as_crispy_field }}
-                                </div>
-                                <div class="input-style mb-20">
-                                    {{ form.municipality|as_crispy_field }}
-                                </div>
+                                {{ know_address_update_form|crispy }}
 
                             </div>
                             <div class="modal-footer">
@@ -43,6 +59,9 @@
                     </div>
                 </div>
 
+    <div class="cart-action text-end my-2">
+        <a class="btn " data-bs-toggle="modal" data-bs-target="#addressAddModal"><i class="fi-rs-plus mr-10"></i>{% trans "Direción" %}</a>
+    </div>
     <div class="row">
         {% for known_address in request.user.profile.known_addresses.all %}
             <div class="col-lg-6">
@@ -83,18 +102,23 @@
         });
     </script>
 
-    <!-- autocomplete update beneficiary form script -->
+    <!-- autocomplete address update data -->
     <script>
-        $('#updateKnownAddressModalForm').on('show.bs.modal', function (event) {
+        $('#addressupdateModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
-            var name_address_value = button.data('name_address') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var knowaddress_id_value = button.data('id') // Extract info from data-* attributes
 
             var modal = $(this);
-            modal.find('#id_name_address').val(name_address_value);
-            {#modal.find('#id_beneficiary').val(name_address_value);#}
+
+            var name_address = button.data('name_address');
+            var country = button.data('country');
+            var province = button.data('province');
+            var municipality = button.data('municipality');
+
+            modal.find('#id_name_address').val(name_address);
+            $('#id_country option[value=' + country + ']').prop("selected", true);
+            $('#id_province option[value=' + province + ']').prop("selected", true);
+            $('#id_municipality option[value=' + municipality + ']').prop("selected", true);
+
         })
     </script>
 {% endblock extra_body %}
