@@ -5,108 +5,70 @@
 
 {% load crispy_forms_tags %}
 
-{% block profile_title %}<h3 class="box-title">{% trans "Direcciones conocidas" %} </h3>{% endblock profile_title %}
-
-{% block profile_action_list %}
-<ul class="list-category">
-    <li class="category-item">
-        <i class="fa fa-user" aria-hidden="true"></i>  <strong><a href="{% url "custom_user:profile" %}" class="cate-link">{% trans "Mi perfil" %}</a></strong>
-    </li>
-    <li class="category-item">
-        <i class="fa fa-users" aria-hidden="true"></i> <a href="{% url "custom_user:profile_contacts" %}" class="cate-link">{% trans "Contactos" %}</a>
-    </li>
-    <li class="category-item">
-        <i class="fa fa-address-card-o" aria-hidden="true"></i> <a href="{% url "users:profile_address" %}" class="cate-link">{% trans "Direcciones" %}</a>
-    </li>
-</ul>
-{% endblock profile_action_list %}
-
-
 {% block profile_content %}
-    <button type="button" data-target="#addKnowAdressModalForm" data-toggle="modal"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+    <!-- Address Update Modal -->
+    <div class="modal fade" id="addressupdateModal" tabindex="-1" aria-labelledby="addressupdateModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
 
-    <!-- Create form -->
-    <div class="modal fade" id="addKnowAdressModalForm" tabindex="-1" role="dialog"
-         aria-labelledby="addKnowAdressModalFormLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">{% trans 'Adicionar dirección' %}</h4>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addressUpdateModalLabel">{% blocktrans %}Editar dirección{% endblocktrans %}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="input-style mb-20">
+                                    {{ form.name_address|as_crispy_field }}
+                                </div>
+                                <div class="input-style mb-20">
+                                    {{ form.country|as_crispy_field }}
+                                </div>
+                                <div class="input-style mb-20">
+                                    {{ form.province|as_crispy_field }}
+                                </div>
+                                <div class="input-style mb-20">
+                                    {{ form.municipality|as_crispy_field }}
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">{% trans "Cancelar" %}</button>
+                                <button type="submit" class="btn btn-primary">{% trans "Guardar" %}</button>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="modal-body">
 
-                        {{ form|crispy }}
-{#                        {{ form}}#}
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cerrar" %}</button>
-                        <input type="submit" class="btn btn-primary" value="{% trans "Guardar" %}">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Update form -->
-    <div class="modal fade" id="updateKnownAddressModalForm" tabindex="-1" role="dialog"
-         aria-labelledby="updateKnownAddressModalFormLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="updateBeneficiaryModalFormLabel">{% trans 'Actualizar dirección' %}</h4>
-                </div>
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="modal-body">
-
-                        {{ know_address_update_form|crispy }}
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cerrar" %}</button>
-                        <input type="submit" class="btn btn-primary" value="{% trans "Guardar" %}">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <ul class="products-cart">
+    <div class="row">
         {% for known_address in request.user.profile.known_addresses.all %}
-        <li class="pr-cart-item">
-            <div class="product-image">
-                <figure><img src="{% static 'assets/images/products/digital_18.jpg' %}" alt="">
-                </figure>
-            </div>
-            <div class="product-name">
-                <a class="link-to-product" href="" data-target="#updateKnownAddressModalForm" data-toggle="modal"
-                       data-id="{{known_address.pk}}"
-                       data-name_address="{{known_address.name_address}}" >
-                        {{ known_address }}
-                    </a>
+            <div class="col-lg-6">
+                <div class="card mb-3 mb-lg-0">
+                    <div class="card-header">
+                        <h5 class="mb-0">{{ known_address }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <address>{{ known_address.address }}</address>
+                        <a class="btn-small" data-bs-toggle="modal" data-bs-target="#addressupdateModal"
+                           data-name_address="{{ known_address.name_address }}"
+                           data-country="{{ known_address.country.pk }}"
+                           data-province="{{ known_address.province.pk }}"
+                           data-municipality="{{ known_address.municipality.pk }}"
+                           data-action="ADDRESS_UPDATE"
+                        > {% trans "Editar" %}
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="delete">
-                <a href="#" class="btn btn-delete" title="">
-                    <span>Delete from your cart</span>
-                    <i class="fa fa-times-circle" aria-hidden="true"></i>
-                </a>
-            </div>
-        </li>
         {% empty %}
             <p>{% blocktrans %} No se encontraron direcciones conocidas. {% endblocktrans %}</p>
 
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}
 
 {% block extra_body %}

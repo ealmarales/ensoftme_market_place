@@ -21,39 +21,39 @@ Invitation = get_invitation_model()
 
 
 class ProfilePageView(LoginRequiredMixin,
-                      FormView,
+                      UpdateView,
                       ):
     """View to edit personal data from the user profile"""
-    form_class = forms.ProfileForm
+    form_class = forms.UserPersonalDataProfileForm
+    contact_form_class = forms.UserProfileContactDataForm
 
     template_name = "custom_user/profile/profile.html"
     success_url = reverse_lazy('custom_user:profile')
 
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'contact_form' not in context:
+            context['contact_form'] = forms.UserProfileContactDataForm(instance=self.request.user.profile)
+        return context
+
     def post(self, request, *args, **kwargs):
+        self.object = self.get_object
 
-        form = self.form_class(data=request.POST)
-        action = form.data.get('action', None)
-        if action == 'PRIVATE_DATA_UPDATE':
-            private_data_form = forms.UserPersonalDataProfileForm(instance=self.request.user, data=request.POST)
-            contact_data_form = forms.UserProfileContactDataForm(instance=self.request.user.profile, data=request.POST)
-            if private_data_form.is_valid() and contact_data_form.is_valid():
-                private_data_form.save()
-                contact_data_form.save()
-                return HttpResponseRedirect(self.success_url)
-            return self.render_to_response(self.get_context_data(form=form, action=action))
+        form = self.form_class(data=request.POST, instance=self.request.user)
+        profile = request.user.profile
+        contact_form = self.contact_form_class(data=request.POST, instance=profile)
 
-        # profile = request.user.profile
-        # contact_form = self.contact_form_class(data=request.POST, instance=profile)
-        #
-        #
-        # if form.is_valid() and contact_form.is_valid():
-        #     form.save()
-        #     contact_form.save()
-        #     return HttpResponseRedirect(self.success_url)
-        # else:
-        #     return self.render_to_response(self.get_context_data(form=form,
-        #                                                          contact_form=contact_form,
-        #                                                          ))
+        if form.is_valid() and contact_form.is_valid():
+            form.save()
+            contact_form.save()
+            return HttpResponseRedirect(self.success_url)
+        else:
+            return self.render_to_response(self.get_context_data(form=form,
+                                                                 contact_form=contact_form,
+                                                                 ))
 
 
 class ProfileContactPageView(LoginRequiredMixin,
@@ -146,4 +146,33 @@ class ProfileKnownAddressPageView(LoginRequiredMixin,
         return context
 
 
+class TestView(LoginRequiredMixin,
+               CreateView,
+               ):
+    form_class = forms.UserPersonalDataProfileForm
+    know_address_update_form_class = forms.KnowAddressUpdateFormClass
 
+    template_name = "custom_user/profile/test.html"
+    success_url = reverse_lazy('custom_user:profile')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'know_address_update_form' not in context:
+            context['know_address_update_form'] = self.know_address_update_form_class()
+        return context
+
+
+class TestView2(LoginRequiredMixin,
+                CreateView,
+                ):
+    form_class = forms.UserPersonalDataProfileForm
+    know_address_update_form_class = forms.KnowAddressUpdateFormClass
+
+    template_name = "custom_user/profile/test2.html"
+    success_url = reverse_lazy('custom_user:profile')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'know_address_update_form' not in context:
+            context['know_address_update_form'] = self.know_address_update_form_class()
+        return context

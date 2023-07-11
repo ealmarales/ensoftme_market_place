@@ -8,4 +8,8 @@ urlpatterns = [
     path("profile", views.ProfilePageView.as_view(), name="profile"),
     path("profile/contacts", views.ProfileContactPageView.as_view(), name="profile_contacts"),
     path("profile/address", views.ProfileKnownAddressPageView.as_view(), name="profile_address"),
+
+    path("profile/test", views.TestView.as_view(), name="test"),
+    path("profile/test2", views.TestView2.as_view(), name="test2"),
+
 ]

@@ -104,4 +104,12 @@ class ProfileForm(forms.Form):
     # geolocation = GeoLocationField(max_length=100)
     # TODO: utilizar los campos para renderizar el mapa de googlemap
 
+    # beneficiary
+    beneficiary_email = forms.EmailField(label=_('email'), )
+    beneficiary_phone_number = forms.CharField(label=_('número telefónico'), max_length=50)
+    beneficiary_decription = forms.CharField(label=_('descripción'), max_length=255)
+    beneficiary_inviter = forms.HiddenInput()
+
+
+
 

@@ -1,0 +1,23 @@
+{% extends 'custom_user/profile/profile_base_2.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans "Mi perfil" %}{% endblock title %}
+
+{% block menu %}
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "users:test" %}"><i class="fi-rs-users mr-10"></i>{% trans "Datos personales" %}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url "users:test2" %}"><i class="fi-rs-users mr-10"></i>{% trans "Beneficiarios" %}</a>
+        </li>
+    </ul>
+
+{% endblock menu%}
+
+{% block profile_content %} test 2
+                            {% endblock profile_content %}

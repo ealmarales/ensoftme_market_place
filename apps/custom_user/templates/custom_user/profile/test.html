@@ -1,0 +1,261 @@
+        <div class="tab-content dashboard-content">
+            <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                <!-- Private Data Update Modal -->
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal fade" id="privateDataupdateModal" tabindex="-1"
+                     aria-labelledby="privateDataupdateModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="privateDataupdateModalLabel">{% blocktrans %}Editar
+                                        datos
+                                        personales{% endblocktrans %}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="input-style mb-20">
+                                        {{ form.first_name|as_crispy_field }}
+                                    </div>
+                                    <div class="input-style mb-20">
+                                        {{ form.last_name|as_crispy_field }}
+                                    </div>
+                                    <div class="input-style mb-20">
+                                        {{ form.email|as_crispy_field }}
+                                    </div>
+                                    <div class="input-style mb-20">
+                                        {{ form.phone_number|as_crispy_field }}
+                                    </div>
+
+                                    <input type="hidden" class="action">
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">{% trans "Cancelar" %}</button>
+                                    <button type="submit" class="btn btn-primary">{% trans "Guardar" %}</button>
+
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">{% trans "Datos personales" %} </h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="m">
+                            <li><strong>Nombre:</strong> {{ request.user.first_name | default:"" }}</li>
+                            <li><strong>Apellidos:</strong> {{ request.user.last_name | default:"" }}</li>
+                            <li><strong>Email:</strong> {{ request.user.email|default:"---" }}</li>
+                            <li><strong>Teléfono:</strong> {{ request.user.profile.phone_number|default:"---" }}</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn-small" data-bs-toggle="modal" data-bs-target="#privateDataupdateModal"
+                           data-first_name="{{ request.user.first_name }}"
+                           data-last_name="{{ request.user.last_name }}"
+                           data-email="{{ request.user.email }}"
+                           data-phone_number="{{ request.user.profile.phone_number }}"
+                           data-action="PRIVATE_DATA_UPDATE"
+                        > {% trans "Editar" %}
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="beneficiaries" role="tabpanel" aria-labelledby="beneficiaries-tab">
+                <div class="cart-action text-end my-2">
+                    <a class="btn "><i class="fi-rs-plus mr-10"></i>{% trans "Beneficiario" %}</a>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+
+                        <h5 class="mb-0">{% blocktrans %} Sus beneficiarios {% endblocktrans %} </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                        {% if request.user.beneficiaries.all %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>{% trans "Beneficiario" %}</th>
+                                    <th style="width: 40%; text-align: right;">{% trans "Acciones" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for beneficiary in request.user.beneficiaries.all %}
+
+                                    <tr>
+                                        <td>{{ beneficiary }}</td>
+
+                                        <td style="width: 40%; text-align: right;" class="mb-2">
+                                            <a href="#" class="btn-small">{% trans "Editar" %}</a>
+                                            <a href="#" class="btn-small">{% trans "Transferir" %}</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                        <p> {% trans "No se encontraron beneficiarios" %}
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Orders tracking</h5>
+                    </div>
+                    <div class="card-body contact-from-area">
+                        <p>To track your order please enter your OrderID in the box below and press "Track" button. This
+                            was
+                            given to you on your receipt and in the confirmation email you should have received.</p>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <form class="contact-form-style mt-30 mb-50" action="#" method="post">
+                                    <div class="input-style mb-20">
+                                        <label>Order ID</label>
+                                        <input name="order-id" placeholder="Found in your order confirmation email"
+                                               type="text" class="square">
+                                    </div>
+                                    <div class="input-style mb-20">
+                                        <label>Billing email</label>
+                                        <input name="billing-email" placeholder="Email you used during checkout"
+                                               type="email" class="square">
+                                    </div>
+                                    <button class="submit submit-auto-width" type="submit">Track</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                <!-- Address Update Modal -->
+                <div class="modal fade" id="addressupdateModal" tabindex="-1" aria-labelledby="addressupdateModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addressUpdateModalLabel">{% blocktrans %}Editar dirección{% endblocktrans %}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="input-style mb-20">
+                                    {{ form.name_address|as_crispy_field }}
+                                </div>
+                                <div class="input-style mb-20">
+                                    {{ form.country|as_crispy_field }}
+                                </div>
+                                <div class="input-style mb-20">
+                                    {{ form.province|as_crispy_field }}
+                                </div>
+                                <div class="input-style mb-20">
+                                    {{ form.municipality|as_crispy_field }}
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">{% trans "Cancelar" %}</button>
+                                <button type="submit" class="btn btn-primary">{% trans "Guardar" %}</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% for known_address in request.user.profile.known_addresses.all %}
+                        <div class="col-lg-6">
+                            <div class="card mb-3 mb-lg-0">
+                                <div class="card-header">
+                                    <h5 class="mb-0">{{ known_address }}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <address>{{ known_address.address }}</address>
+                                    <a class="btn-small" data-bs-toggle="modal" data-bs-target="#addressupdateModal"
+                                       data-name_address="{{ known_address.name_address }}"
+                                       data-country="{{ known_address.country.pk }}"
+                                       data-province="{{ known_address.province.pk }}"
+                                       data-municipality="{{ known_address.municipality.pk }}"
+                                       data-action="ADDRESS_UPDATE"
+                                    > {% trans "Editar" %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% empty %}
+                        <p>{% blocktrans %} No se encontraron direcciones conocidas. {% endblocktrans %}</p>
+
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Account Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Already have an account? <a href="login.html">Log in instead!</a></p>
+                        <form method="post" name="enq">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>First Name <span class="required">*</span></label>
+                                    <input required="" class="form-control square" name="name" type="text">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Last Name <span class="required">*</span></label>
+                                    <input required="" class="form-control square" name="phone">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Display Name <span class="required">*</span></label>
+                                    <input required="" class="form-control square" name="dname" type="text">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Email Address <span class="required">*</span></label>
+                                    <input required="" class="form-control square" name="email" type="email">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Current Password <span class="required">*</span></label>
+                                    <input required="" class="form-control square" name="password" type="password">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>New Password <span class="required">*</span></label>
+                                    <input required="" class="form-control square" name="npassword" type="password">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Confirm Password <span class="required">*</span></label>
+                                    <input required="" class="form-control square" name="cpassword" type="password">
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-fill-out submit" name="submit" value="Submit">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
+
